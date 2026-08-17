@@ -2,7 +2,7 @@
 
 面向逆向与估值驱动的 ETF 投资者，这个仪表盘把 A 股、港股、美股核心指数的估值区间、回撤、股息率等关键指标放在同一视图里，帮你快速判断“贵还是便宜”。
 
-> **在线体验**：https://bryanzhang1024.github.io/etf-dashboard-auto/
+> **在线体验**：https://menghuyang.github.io/etf-dashboard-auto/
 >
 > **数据刷新**：每个交易日北京时间 18:30 左右自动更新（GitHub Actions）
 
