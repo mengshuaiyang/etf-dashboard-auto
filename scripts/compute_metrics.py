@@ -76,6 +76,29 @@ def _drawdown(price: pd.Series) -> Optional[float]:
     return float(np.clip(dd.iloc[-1], 0.0, 1.0))
 
 
+def _local_eva_type(
+    pe_pct: Optional[float],
+    pb_pct: Optional[float],
+    low: float = 30.0,
+    high: float = 70.0,
+) -> Optional[str]:
+    """基于本地历史百分位计算估值标签。
+
+    - 同时有 PE/PB 百分位时取均值
+    - 仅 PE 可用时回退到 PE（如红利/银行类指数 PB 长期为 0 或缺失）
+    - 阈值: < low → low（低估），> high → high（高估），其余 → mid（中性）
+    """
+    pcts = [p for p in (pe_pct, pb_pct) if p is not None]
+    if not pcts:
+        return None
+    avg = float(np.mean(pcts))
+    if avg < low:
+        return "low"
+    if avg > high:
+        return "high"
+    return "mid"
+
+
 def _load_price(cfg: dict[str, object]) -> pd.DataFrame:
     market = cfg.get("class")
     if market not in PRICE_DIRS:
@@ -156,6 +179,9 @@ def main() -> None:
             eva_type_int = last.get("eva_type_int")
             bond_yield = last.get("bond_yield")
 
+        # 本地百分位判断：与 djeva 的 eva_type 并存，便于对比
+        eva_type_local = _local_eva_type(pe_pct, pb_pct)
+
         records.append(
             {
                 "index_code": code,
@@ -168,6 +194,7 @@ def main() -> None:
                 "roe_current": roe_current,
                 "eva_type": eva_type,
                 "eva_type_int": eva_type_int,
+                "eva_type_local": eva_type_local,
                 "bond_yield": bond_yield,
             }
         )

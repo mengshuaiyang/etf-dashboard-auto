@@ -66,6 +66,7 @@ def main() -> None:
                 "roe": _safe(metrics.get("roe_current"), None, 4),
                 "drawdown": _safe(metrics.get("drawdown"), 0.0, 4),
                 "eva_type": metrics.get("eva_type") if isinstance(metrics, pd.Series) else None,
+                "eva_type_local": metrics.get("eva_type_local") if isinstance(metrics, pd.Series) else None,
             }
         )
 
