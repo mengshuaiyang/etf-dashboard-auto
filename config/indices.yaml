@@ -146,6 +146,14 @@
   etf_proxies:
     - "515180.SS"
 
+- name: 中证红利低波动
+  code: "CSIH30269"
+  djeva_code: "CSIH30269"
+  class: "CN_CSI"
+  price_symbol: "csih30269"
+  etf_proxies:
+    - "512890.SS"
+
 # --- 海外指数 ---
 - name: 纳斯达克100
   code: "NDX"
